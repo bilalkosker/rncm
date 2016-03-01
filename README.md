@@ -15,4 +15,4 @@ Require Native Module:
 ```javascript
 var RNCalendarReminders = require('react-native-calendar-manager');
 ```
-The **EventKit.framework** will also need to be added to the project.
+The **EventKit.framework** will also need to be added to the project
