@@ -1,69 +1,30 @@
 {
-  "_args": [
-    [
-      "react-native-calendar-manager",
-      "/Users/sigunteknoloji/Documents/fullStackSqlLite"
-    ]
-  ],
-  "_from": "react-native-calendar-manager@*",
-  "_id": "react-native-calendar-manager@0.0.1",
-  "_inCache": true,
-  "_installable": true,
-  "_location": "/react-native-calendar-manager",
-  "_nodeVersion": "4.2.2",
-  "_npmUser": {
-    "email": "bilalkosker@hotmail.com.tr",
-    "name": "bilalkosker"
-  },
-  "_npmVersion": "2.14.7",
-  "_phantomChildren": {},
-  "_requested": {
-    "name": "react-native-calendar-manager",
-    "raw": "react-native-calendar-manager",
-    "rawSpec": "",
-    "scope": null,
-    "spec": "*",
-    "type": "range"
-  },
-  "_requiredBy": [
-    "#USER"
-  ],
 
-  "_shrinkwrap": null,
-  "_spec": "react-native-calendar-manager",
-  "_where": "/Users/sigunteknoloji/Documents/fullStackSqlLite",
-  "author": {
-    "name": "Bilal Kosker"
-  },
-
-  "dependencies": {},
-  "description": "React Native module for IOS EventKit Manager",
-  "devDependencies": {},
-  "directories": {},
-  "keywords": [
-    "calendar-manager",
-    "eventkit",
-    "ios",
-    "react-component",
-    "react-native",
-    "manager"
-  ],
-  "main": "RNCalendarManager.ios.js",
-  "maintainers": [
-    {
-      "name": "bilalkosker",
-      "email": "bilalkosker@hotmail.com.tr"
-    }
-  ],
   "name": "react-native-calendar-manager",
-  "optionalDependencies": {},
-  "peerDependencies": {
-    "react-native": ">=0.8.0"
-  },
-  "readme": "ERROR: No README data found!",
-
+  "version": "0.0.3",
+  "author": "Bilal Köşker",
+  "license": "anonymous",
+  "main": "RNCalendarManager.ios.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.0.2"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bilalkosker/rncm"
+  },
+  "bugs": {
+    "url": "https://github.com/bilalkosker/rncm/issues"
+  },
+  "homepage": "https://github.com/bilalkosker/rncm",
+  "description": "React Native module for IOS EventKit Reminders",
+  "keywords": [
+    "react-native",
+    "react-component",
+    "ios",
+    "eventkit",
+    "calendar-manager"
+  ],
+  "peerDependencies": {
+    "react-native": ">=0.8.0"
+  }
 }
