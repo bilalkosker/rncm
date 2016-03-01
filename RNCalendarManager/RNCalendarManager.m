@@ -208,32 +208,7 @@ RCT_EXPORT_METHOD(addEvent:(NSString *)name notes:(NSString *)notes location:(NS
         }
         //set calendar
         [event setCalendar: eventStore.defaultCalendarForNewEvents];
-        
-       //burda çakışmaya karşı karşılaştırma yap diğer etkinliklerle ve çakışanı ekrana bi yaz
-       //şimdilik burda dursun daha sonra diğer event üretilmeden yapılabilirse de olur
-        /*    EKEvent *eventComp;
-       //elimdeki etkinliklerin listesi
 
-            BOOL collision = false;
-            NSArray *calendarArray = [NSArray arrayWithObject:eventStore.defaultCalendarForNewEvents];
-            NSPredicate *predicate = [self.eventStore predicateForEventsWithStartDate:sDate endDate:eDate calendars:calendarArray];
-            // Fetch all events that match the predicate.
-            NSArray *events = [self.eventStore eventsMatchingPredicate:predicate];
-
-            for (NSDictionary* sessionEvent in IdList)
-            {
-                eventComp = [eventStore eventWithIdentifier:[sessionEvent valueForKey:@"calendarEventID"]];
-                
-                for(EKEvent *e in events) {
-                   if([e.eventIdentifier isEqualToString:eventComp.eventIdentifier]){
-                        collision = true;
-                    }
-                }
-            }
-                        
-            if(!collision){*/
-                // ADD EVENT TO CALENDAR
-                // store the event using EventStore.
                 NSError *err;
                 BOOL result  = [eventStore saveEvent:event span:EKSpanThisEvent error:&err];
                 
@@ -250,37 +225,11 @@ RCT_EXPORT_METHOD(addEvent:(NSString *)name notes:(NSString *)notes location:(NS
                         callback(@[[err localizedDescription], [NSNull null]]);
                     });
                 }
-           /* }
-            else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    callback(@[@"Çakışma var", [NSNull null]]);
-                });
-            }*/
+
         }
         
     }];
-    
-    //SQL FOLDER CHECK
-    /* //libs folder used yet!!!
-     NSString *libs = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex: 0];
-     NSLog(@"Detected Library path: %@", libs);
-     
-     NSFileManager *manager =[NSFileManager  defaultManager];
-     
-     NSString *dbLocation = [libs stringByAppendingString:@"/LocalDatabase/Test.db"];
-     
-     if ([manager fileExistsAtPath: dbLocation] == YES)
-     NSLog(@"DOSYA MEVCUTTUR");
-     else
-     NSLog(@"DOSYA MEVCUT DEĞİLDİR");*/
-    
-    /*NSString *dbPath = [libraryDirectory stringByAppendingString:@"/LocalDatabase/"];
-     
-     NSFileManager *manager = [NSFileManager defaultManager];
-     NSArray *fileList = [manager contentsOfDirectoryAtPath:dbPath
-     error:nil];
-     // --- Listing file by name sort
-     NSLog(@"\n File list %@",fileList);*/
+
 }
 
 @end
