@@ -48,13 +48,13 @@ RCT_EXPORT_MODULE()
 #pragma mark RCT Exports
 
 
-RCT_EXPORT_METHOD(fetchAllEvents:(NSArray *)IdList sDate:(NSString *)sDate eDate:(NSString *)eDate callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(fetchAllEvents:(NSArray *)IdList callback:(RCTResponseSenderBlock)callback)
 {
     EKEventStore *eventStore = [[EKEventStore alloc] init];
     [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (!granted){
             dispatch_async(dispatch_get_main_queue(), ^{
-               callback(@[@"Yetki verilmedi", [NSNull null],[NSNull null]]);
+                callback(@[@"Yetki verilmedi", [NSNull null],[NSNull null]]);
             });
         }
         else{
@@ -98,7 +98,7 @@ RCT_EXPORT_METHOD(fetchAllEvents:(NSArray *)IdList sDate:(NSString *)sDate eDate
                 if(event.allDay){
                     
                     [formedEvent setValue: NSStringFromBOOL(event.allDay) forKey: _allDay];
-                   
+                    
                 }
                 if (event.startDate) {
                     
@@ -115,11 +115,11 @@ RCT_EXPORT_METHOD(fetchAllEvents:(NSArray *)IdList sDate:(NSString *)sDate eDate
                 [serializedEvents addObject:formedEvent];
             }
             eventsCopy = [serializedEvents copy];
-         
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 callback(@[[NSNull null], eventsCopy, deletedItems]);
             });
-
+            
         }
     }];
 }
@@ -186,50 +186,50 @@ RCT_EXPORT_METHOD(addEvent:(NSString *)name notes:(NSString *)notes location:(NS
             });
         }
         else{
-        // create an instance of event with the help of event-store object.
-        EKEvent *event = [EKEvent eventWithEventStore:eventStore];
-        event.notes = notes;
-        // set the title of the event.
-        event.title = name;
-        
-        // set the start date of event - based on current time, tomorrow's date
-        event.startDate = sDate; // 24 hours * 60 mins * 60 seconds = 86400
-        
-        // set the end date - meeting duration 1 hour
-        event.endDate = eDate; // 25 hours * 60 mins * 60 seconds = 86400
-        
-        /* optional now
-         event.allDay    = NO;    // set the calendar of the event. - here default calendar
-         event.location  = @"Location of";
-         event.notes     = @"Notes";*/
-       if (aTime && [aTime intValue] != -1) {
-            EKAlarm *alarm = [EKAlarm alarmWithRelativeOffset:[aTime intValue] * -60]; // Half Hour Before
-            event.alarms = [NSArray arrayWithObject:alarm];
-        }
-        //set calendar
-        [event setCalendar: eventStore.defaultCalendarForNewEvents];
-
-                NSError *err;
-                BOOL result  = [eventStore saveEvent:event span:EKSpanThisEvent error:&err];
+            // create an instance of event with the help of event-store object.
+            EKEvent *event = [EKEvent eventWithEventStore:eventStore];
+            event.notes = notes;
+            // set the title of the event.
+            event.title = name;
+            
+            // set the start date of event - based on current time, tomorrow's date
+            event.startDate = sDate; // 24 hours * 60 mins * 60 seconds = 86400
+            
+            // set the end date - meeting duration 1 hour
+            event.endDate = eDate; // 25 hours * 60 mins * 60 seconds = 86400
+            
+            /* optional now
+             event.allDay    = NO;    // set the calendar of the event. - here default calendar
+             event.location  = @"Location of";
+             event.notes     = @"Notes";*/
+            if (aTime && [aTime intValue] != -1) {
+                EKAlarm *alarm = [EKAlarm alarmWithRelativeOffset:[aTime intValue] * -60]; // Half Hour Before
+                event.alarms = [NSArray arrayWithObject:alarm];
+            }
+            //set calendar
+            [event setCalendar: eventStore.defaultCalendarForNewEvents];
+            
+            NSError *err;
+            BOOL result  = [eventStore saveEvent:event span:EKSpanThisEvent error:&err];
+            
+            if(result){
+                NSString *savedEventId = event.eventIdentifier;
+                //NSString *calendarEventId = event.calendarItemIdentifier;
                 
-                if(result){
-                    NSString *savedEventId = event.eventIdentifier;
-                    //NSString *calendarEventId = event.calendarItemIdentifier;
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        callback(@[[NSNull null], savedEventId]);
-                    });
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        callback(@[[err localizedDescription], [NSNull null]]);
-                    });
-                }
-
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    callback(@[[NSNull null], savedEventId]);
+                });
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    callback(@[[err localizedDescription], [NSNull null]]);
+                });
+            }
+            
         }
         
     }];
-
+    
 }
 
 @end
