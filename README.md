@@ -1,6 +1,7 @@
 # React-Native-CalendarReminders
 React Native Module for IOS Calendar
 
+#the version will reviewed again and cleaned for all users
 
 ## Install
 ```
