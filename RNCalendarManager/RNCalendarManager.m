@@ -6,6 +6,8 @@
 // EKEventStore instance associated with the current Calendar application
 @property (nonatomic, strong) EKEventStore *eventStore;
 
+@property (nonatomic, strong) NSString *calendarIdentifier;
+
 // Default calendar associated with the above event store
 @property (nonatomic, strong) EKCalendar *defaultCalendar;
 
@@ -22,6 +24,12 @@ static NSString *const _eventIdentifier = @"eventIdentifier";
 static NSString *const _startDate = @"startDate";
 static NSString *const _endDate = @"endDate";
 static NSString *const _index = @"index";
+
+static NSString *const calendarIdentifier = nil;
+
+
+
+static NSString *const my_calendar_name = @"AIMCO";
 
 static inline NSString* NSStringFromBOOL(BOOL aBool) {
     return aBool? @"True" : @"False"; }
@@ -44,13 +52,100 @@ RCT_EXPORT_MODULE()
 }
 
 
+
 #pragma mark -
 #pragma mark RCT Exports
+
+RCT_EXPORT_METHOD(checkCalendar:(NSString *)identifier callback:(RCTResponseSenderBlock)callback){
+   
+    EKEventStore *eventStore = self.eventStore;
+    [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (!granted){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                callback(@[@"Yetki verilmedi", [NSNull null],[NSNull null]]);
+            });
+        }
+        else{
+            
+            EKCalendar *selectedCalendar = nil;
+            if(identifier){ //if identifier used before find calendar
+                NSArray *allCalendars = [self.eventStore calendarsForEntityType:EKEntityTypeEvent];
+                for (EKCalendar *calendar in allCalendars) {
+                    if ([calendar.calendarIdentifier isEqualToString:identifier]) {
+                        selectedCalendar = calendar;
+                        break;
+                    }
+                }
+            }
+            if(!selectedCalendar){ // if calendar not found create a calendar with name 'AIMCO'
+                EKCalendar *calendar = [EKCalendar calendarForEntityType:EKEntityTypeEvent eventStore:eventStore];
+                [calendar setTitle:my_calendar_name];
+                EKSource *theSource= nil;
+                
+                for(EKSource *s in eventStore.sources){ //icloud calendar create
+                    if(s.sourceType == EKSourceTypeCalDAV && [s.title isEqualToString: @"iCloud"]){
+                        theSource= s;
+                        break;
+                    }
+                }
+                if(!theSource){
+                    for(EKSource *s in eventStore.sources){
+                        if(s.sourceType == EKSourceTypeLocal){
+                            theSource= s;
+                            break;
+                        }
+                    }
+                }
+                
+                if(theSource){
+                    calendar.source = theSource;
+                }
+                else {
+                    NSLog(@"Error: Local source not available");
+                    return;
+                }
+                
+                NSString *calendarIdentifier = [calendar calendarIdentifier];
+                NSError *error = nil;
+                BOOL saved = [eventStore saveCalendar:calendar commit:YES error:&error];
+                if(saved)
+                {
+                    self.calendarIdentifier = calendarIdentifier;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        callback(@[[NSNull null], calendarIdentifier]);
+                    });
+                    return;
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        callback(@[@"Takvim Oluşturulamadı", [NSNull null]]);
+                    });
+                    return;
+                }
+            } else {
+                self.calendarIdentifier = identifier;
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                callback(@[[NSNull null], [NSNull null]]);
+            });
+        }
+    }];
+ }
 
 
 RCT_EXPORT_METHOD(fetchAllEvents:(NSArray *)IdList callback:(RCTResponseSenderBlock)callback)
 {
-    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    /*
+     
+     
+        NSPredicate *predicate =[self.eventStore predicateForEventsWithStartDate:[NSDate distantPast] endDate:[NSDate distantFuture] calendars:calendarsArray];
+     
+     */
+    
+    
+    
+    EKEventStore *eventStore = self.eventStore;
     [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (!granted){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -126,7 +221,7 @@ RCT_EXPORT_METHOD(fetchAllEvents:(NSArray *)IdList callback:(RCTResponseSenderBl
 
 RCT_EXPORT_METHOD(editEvent:(NSString *)eventId sDate:(NSDate *)sDate eDate:(NSDate *)eDate aTime:(nonnull NSNumber *)aTime callback:(RCTResponseSenderBlock)callback)
 {
-    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    EKEventStore *eventStore = self.eventStore;
     [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (!granted){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -178,7 +273,7 @@ RCT_EXPORT_METHOD(editEvent:(NSString *)eventId sDate:(NSDate *)sDate eDate:(NSD
 
 RCT_EXPORT_METHOD(addEvent:(NSString *)name notes:(NSString *)notes location:(NSString *)location sDate:(NSDate *)sDate eDate:(NSDate *)eDate aTime:(nonnull NSNumber *)aTime callback:(RCTResponseSenderBlock)callback)
 {
-    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    EKEventStore *eventStore = self.eventStore;
     [eventStore requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (!granted){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -206,8 +301,21 @@ RCT_EXPORT_METHOD(addEvent:(NSString *)name notes:(NSString *)notes location:(NS
                 EKAlarm *alarm = [EKAlarm alarmWithRelativeOffset:[aTime intValue] * -60]; // Half Hour Before
                 event.alarms = [NSArray arrayWithObject:alarm];
             }
+            
+           /* EKCalendar *selectedCalendar = nil;
+            if(identifier){ //if identifier used before find calendar
+                NSArray *allCalendars = [self.eventStore calendarsForEntityType:EKEntityTypeEvent];
+                for (EKCalendar *calendar in allCalendars) {
+                    if ([calendar.calendarIdentifier isEqualToString:identifier]) {
+                        selectedCalendar = calendar;
+                        break;
+                    }
+                }
+            }*/
+            
+            EKCalendar *cal = [eventStore calendarWithIdentifier:self.calendarIdentifier];
             //set calendar
-            [event setCalendar: eventStore.defaultCalendarForNewEvents];
+            [event setCalendar: cal];
             
             NSError *err;
             BOOL result  = [eventStore saveEvent:event span:EKSpanThisEvent error:&err];

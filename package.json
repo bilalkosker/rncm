@@ -1,30 +1,84 @@
 {
-
-  "name": "react-native-calendar-manager",
-  "version": "0.0.3",
-  "author": "Bilal Köşker",
-  "license": "anonymous",
-  "main": "RNCalendarManager.ios.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "_args": [
+    [
+      "react-native-calendar-manager@0.0.3",
+      "/Users/sigunteknoloji/Documents/AIM-CO"
+    ]
+  ],
+  "_from": "react-native-calendar-manager@0.0.3",
+  "_id": "react-native-calendar-manager@0.0.3",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/react-native-calendar-manager",
+  "_nodeVersion": "5.5.0",
+  "_npmOperationalInternal": {
+    "host": "packages-9-west.internal.npmjs.com",
+    "tmp": "tmp/react-native-calendar-manager-0.0.3.tgz_1456837738260_0.8276529852300882"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bilalkosker/rncm"
+  "_npmUser": {
+    "email": "bilalkosker@hotmail.com.tr",
+    "name": "bilalkosker"
+  },
+  "_npmVersion": "3.6.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "react-native-calendar-manager",
+    "raw": "react-native-calendar-manager@0.0.3",
+    "rawSpec": "0.0.3",
+    "scope": null,
+    "spec": "0.0.3",
+    "type": "version"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_shasum": "2de96ab98b51a59246c975a077a1a44c392a6652",
+  "_shrinkwrap": null,
+  "_spec": "react-native-calendar-manager@0.0.3",
+  "_where": "/Users/sigunteknoloji/Documents/AIM-CO",
+  "author": {
+    "name": "Bilal Köşker"
   },
   "bugs": {
     "url": "https://github.com/bilalkosker/rncm/issues"
   },
-  "homepage": "https://github.com/bilalkosker/rncm",
+  "dependencies": {},
   "description": "React Native module for IOS EventKit Reminders",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "2de96ab98b51a59246c975a077a1a44c392a6652",
+    "tarball": "http://registry.npmjs.org/react-native-calendar-manager/-/react-native-calendar-manager-0.0.3.tgz"
+  },
+  "gitHead": "20316f61b18939ba68eb2e9d6f49b3e7ddd57f98",
+  "homepage": "https://github.com/bilalkosker/rncm",
   "keywords": [
-    "react-native",
-    "react-component",
-    "ios",
+    "calendar-manager",
     "eventkit",
-    "calendar-manager"
+    "ios",
+    "react-component",
+    "react-native"
   ],
+  "license": "anonymous",
+  "main": "RNCalendarManager.ios.js",
+  "maintainers": [
+    {
+      "name": "bilalkosker",
+      "email": "bilalkosker@hotmail.com.tr"
+    }
+  ],
+  "name": "react-native-calendar-manager",
+  "optionalDependencies": {},
   "peerDependencies": {
     "react-native": ">=0.8.0"
-  }
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bilalkosker/rncm.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.3"
 }
