@@ -1,19 +1,19 @@
 {
   "_args": [
     [
-      "react-native-calendar-manager@0.0.3",
+      "react-native-calendar-manager@0.0.4",
       "/Users/sigunteknoloji/Documents/AIM-CO"
     ]
   ],
-  "_from": "react-native-calendar-manager@0.0.3",
-  "_id": "react-native-calendar-manager@0.0.3",
+  "_from": "react-native-calendar-manager@0.0.4",
+  "_id": "react-native-calendar-manager@0.0.4",
   "_inCache": true,
   "_installable": true,
   "_location": "/react-native-calendar-manager",
   "_nodeVersion": "5.5.0",
   "_npmOperationalInternal": {
     "host": "packages-9-west.internal.npmjs.com",
-    "tmp": "tmp/react-native-calendar-manager-0.0.3.tgz_1456837738260_0.8276529852300882"
+    "tmp": "tmp/react-native-calendar-manager-0.0.4.tgz_1456837738260_0.8276529852300882"
   },
   "_npmUser": {
     "email": "bilalkosker@hotmail.com.tr",
@@ -34,8 +34,7 @@
   ],
   "_shasum": "2de96ab98b51a59246c975a077a1a44c392a6652",
   "_shrinkwrap": null,
-  "_spec": "react-native-calendar-manager@0.0.3",
-  "_where": "/Users/sigunteknoloji/Documents/AIM-CO",
+  "_spec": "react-native-calendar-manager@0.0.4",
   "author": {
     "name": "Bilal Köşker"
   },
@@ -48,7 +47,7 @@
   "directories": {},
   "dist": {
     "shasum": "2de96ab98b51a59246c975a077a1a44c392a6652",
-    "tarball": "http://registry.npmjs.org/react-native-calendar-manager/-/react-native-calendar-manager-0.0.3.tgz"
+    "tarball": "http://registry.npmjs.org/react-native-calendar-manager/-/react-native-calendar-manager-0.0.4.tgz"
   },
   "gitHead": "20316f61b18939ba68eb2e9d6f49b3e7ddd57f98",
   "homepage": "https://github.com/bilalkosker/rncm",
@@ -80,5 +79,5 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "0.0.3"
+  "version": "0.0.4"
 }
